@@ -8,4 +8,4 @@ teste:
 	mpirun -np 10 hello
 
 clean:
-	rm -rf *.o
+	rm -rf *.o hello
