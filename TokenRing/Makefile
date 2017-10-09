@@ -1,11 +1,11 @@
-all: *.o 
-	mpicc -Wall -g $< -o ring
+all: main.o
+	mpicc -Wall -g $< -o teste
 
-*.o: 
-	mpicc -c *.c
+main.o:
+	mpicc -c main.c
 
 run:
-	mpirun -np 5 ring
+	mpirun -np 5 teste
 
 clean:
-	rm -rf *.o ring
+	rm -rf *.o
