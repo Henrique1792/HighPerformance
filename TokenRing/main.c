@@ -24,7 +24,6 @@ int main(int argc, char *argv[]){
     MPI_Init_thread(&argc, &argv,required, &provided);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-  
     
     if(provided < required){
         
@@ -50,11 +49,11 @@ int main(int argc, char *argv[]){
                 //OMP CODE GOES HERE!
                 threadID=omp_get_thread_num();   // Get the thread ID
                 nthreads=omp_get_num_threads();  // Get the total number of threads
-                
-                #pragma omp for schedule(static)
-                for(i=0;i<nprocs;i++)message++; 
+                #pragma omp critical
+                    message++; 
                 #pragma omp master
                 {
+                    printf("threads created: %d\n", nthreads);
                     if((rank+1)==nprocs)
                         MPI_Send(&message, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
                     else
