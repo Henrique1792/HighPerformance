@@ -44,30 +44,22 @@ int main(int argc, char *argv[]){
             printf("Final Message: %d \n",message);
         }
         else{
-            #pragma omp parallel num_threads(nprocs) shared(message) private(threadID, i)
+            MPI_Recv(&message, 1, MPI_INT, rank-1, tag, MPI_COMM_WORLD, status);
+            #pragma omp parallel num_threads(nprocs) shared(message,nprocs) private(threadID)
             {
                 //OMP CODE GOES HERE!
                 threadID=omp_get_thread_num();   // Get the thread ID
                 nthreads=omp_get_num_threads();  // Get the total number of threads
-                //OMP code goes here!
                 
-
-                if(Master(threadID)){
-                    MPI_Recv(&message, 1, MPI_INT, rank-1, tag, MPI_COMM_WORLD, status);
-                    #pragma omp critical
-                        for(i=0;i<nprocs;i++)
-                            message++;
-                    #pragma omp barrier
+                #pragma omp for schedule(static)
+                for(i=0;i<nprocs;i++)message++; 
+                #pragma omp master
+                {
                     if((rank+1)==nprocs)
                         MPI_Send(&message, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
                     else
                         MPI_Send(&message, 1, MPI_INT, rank+1, tag, MPI_COMM_WORLD);
-                    
                     printf("Message sent from %d: %d \n",rank, message);
-                }
-                else{
-                    #pragma omp critical
-                        message++;
                 }
             }
         } 
