@@ -10,7 +10,7 @@
 int main(int argc, char *argv[]){
     //MPI Variables
         int rank, nprocs, src, dst, flags, message=1, tag,i;
-        MPI_Status *status; 
+        MPI_Status status; 
     //MPI Variables
    
     //OMP/MPI required variable
@@ -39,11 +39,11 @@ int main(int argc, char *argv[]){
         tag=1;
         if(Master(rank)){
             MPI_Send(&message, 1, MPI_INT, rank+1, tag, MPI_COMM_WORLD);
-            MPI_Recv(&message, 1, MPI_INT,nprocs-1, tag, MPI_COMM_WORLD, status);
+            MPI_Recv(&message, 1, MPI_INT,nprocs-1, tag, MPI_COMM_WORLD, &status);
             printf("Final Message: %d \n",message);
         }
         else{
-            MPI_Recv(&message, 1, MPI_INT, rank-1, tag, MPI_COMM_WORLD, status);
+            MPI_Recv(&message, 1, MPI_INT, rank-1, tag, MPI_COMM_WORLD, &status);
             #pragma omp parallel num_threads(nprocs) shared(message,nprocs) private(threadID)
             {
                 //OMP CODE GOES HERE!
