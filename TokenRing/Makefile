@@ -1,5 +1,5 @@
 all: main.o
-	mpicc -Wall -g $< -fopenmp -o  teste
+	mpicc -fopenmp -Wall -g $< -o  teste
 
 main.o:
 	mpicc -c  main.c
@@ -8,4 +8,4 @@ run:
 	mpirun -np 5 teste
 
 clean:
-	rm -rf *.o
+	rm -rf *.o teste

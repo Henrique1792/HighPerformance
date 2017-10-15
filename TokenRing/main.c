@@ -1,5 +1,5 @@
-#include <mpi.h>
 #include <omp.h>
+#include <mpi.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -18,7 +18,7 @@ int main(int argc, char *argv[]){
     //OMP/MPI required variables
     
     //OMP Variables
-       int threadID, nthreads; 
+       int tid, nthreads; 
     //OMP Variables
     
     MPI_Init_thread(&argc, &argv,required, &provided);
@@ -35,7 +35,6 @@ int main(int argc, char *argv[]){
         
     }
     //creating threads on every proccess
-    {
         tag=1;
         if(Master(rank)){
             MPI_Send(&message, 1, MPI_INT, rank+1, tag, MPI_COMM_WORLD);
@@ -43,26 +42,17 @@ int main(int argc, char *argv[]){
             printf("Final Message: %d \n",message);
         }
         else{
-            MPI_Recv(&message, 1, MPI_INT, rank-1, tag, MPI_COMM_WORLD, &status);
-            #pragma omp parallel num_threads(nprocs) shared(message,nprocs) private(threadID)
-            {
-                //OMP CODE GOES HERE!
-                threadID=omp_get_thread_num();   // Get the thread ID
-                nthreads=omp_get_num_threads();  // Get the total number of threads
-                #pragma omp critical
-                    message++; 
-                #pragma omp master
-                {
-                    printf("threads created: %d\n", nthreads);
-                    if((rank+1)==nprocs)
-                        MPI_Send(&message, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
-                    else
-                        MPI_Send(&message, 1, MPI_INT, rank+1, tag, MPI_COMM_WORLD);
-                    printf("Message sent from %d: %d \n",rank, message);
-                }
+            MPI_Recv(&message, 1, MPI_INT,rank-1, tag, MPI_COMM_WORLD, &status);
+            #pragma omp parallel for shared(i,message) reduction(+:message)\
+            num_threads(nprocs)
+            for(i=0;i<nprocs;i++){
+                message++;
             }
-        } 
-    }    
+            if((rank+1==nprocs))
+                MPI_Send(&message, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
+            else
+                MPI_Send(&message, 1, MPI_INT, rank+1, tag, MPI_COMM_WORLD);
+        }
     
     
     MPI_Finalize();
