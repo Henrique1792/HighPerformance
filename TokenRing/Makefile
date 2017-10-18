@@ -5,7 +5,7 @@ main.o:
 	mpicc -c  main.c
 
 run:
-	mpirun -np 5 teste
+	mpirun -np 3 teste
 
 clean:
 	rm -rf *.o teste
