@@ -1,13 +1,13 @@
-DEPS = matrix.c main.c
-OBJS = matrix.o main.o
+DEPS = utils.c matrix.c main.c
+OBJS = utils.o matrix.o main.o
 %.o: %.c $(DEPS)
-	mpicc -c -fopenmp $^
+	gcc -c $^
 all: $(OBJS)
-	mpicc -g -Wall -fopenmp $^ -o teste
+	gcc -g -Wall  $^ -o rref
 
 clean:
-	rm -rf *.o teste
+	rm -rf *.o rref
 
 run:
-	mpirun -np 3 teste
+	./rref
 

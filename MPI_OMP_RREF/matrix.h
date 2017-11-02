@@ -1,13 +1,12 @@
 #ifndef MATRIX_H_
 #define MATRIX_H_
-#include <stdlib.h>
-#include <stdio.h>
+#include "utils.h"
 
 
 
-int **createMatrix(int size);
-void freeMatrix(int ***tgt,int size);
-void printMatrix(int **tgt,int size);
-
+float **createMatrix(int size);
+void freeMatrix(float ***tgt,int size);
+void printMatrix(float **tgt,int size);
+void adjustMatrix(float **tgt, int size);
 
 #endif
