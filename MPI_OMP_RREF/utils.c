@@ -1,6 +1,7 @@
 #include "utils.h"
 #define ENTER '\n'
 #define SPACE 32
+
 void readFloat(FILE *src, float *rt,char *check){
   if(src==NULL) return;
   char *tmp=NULL,chk;
@@ -64,4 +65,15 @@ float *readSolution(){
   rt[i]='\0';
   fclose(src);
   return rt;
+}
+
+void writeSolution(float *solution, int size){
+    if(solution==NULL || size <=0) return;
+    int i;
+    FILE *answer=fopen("resultado.txt","w");
+
+    for(i=0;i<size;i++)
+        fprintf(answer,"%f\n",solution[i]);
+    
+   fclose(answer);
 }

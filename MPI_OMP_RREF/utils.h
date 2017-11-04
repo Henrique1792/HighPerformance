@@ -11,5 +11,5 @@ float **readMatrix();
 float *readVector(FILE *src, int *vectorSize);
 void adjustMatrix(float **tgt, int size);
 float *readSolution();
-void writeSolution();
+void writeSolution(float *solution, int size);
 #endif
