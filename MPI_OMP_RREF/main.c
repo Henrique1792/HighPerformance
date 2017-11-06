@@ -6,10 +6,7 @@ int main(int argc, char *argv[]){
   float *teste;
   int size;
   
-  src=fopen("matriz.txt","r");
-  teste=readVector(src, &size);
-  printVector(teste,size);
-  fclose(src);
-  free(teste);
+  MPI_Init(&argc, &argv);
+  MPI_Finalize();
   return 0;
 }
