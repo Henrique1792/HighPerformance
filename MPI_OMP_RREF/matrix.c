@@ -41,8 +41,3 @@ void swap(float **A, float **B,int size){
     }
 }
 
-void findSwapLine(float **matrix, int size, int tgt){
-}
-
-void adjustMatrix(float **tgt, int size){
-}

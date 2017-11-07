@@ -2,8 +2,6 @@
 #define MATRIX_H_
 #include "utils.h"
 
-
-
 float **createMatrix(int size);
 void freeMatrix(float ***tgt,int size);
 void printMatrix(float **tgt,int size);

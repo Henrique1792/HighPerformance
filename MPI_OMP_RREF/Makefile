@@ -3,12 +3,14 @@ OBJS = utils.o matrix.o main.o
 EXEC = rref
 %.o: %.c $(DEPS)
 	mpicc -c $^
-	all: $(OBJS)
+
+all: $(OBJS)
 	mpicc -g -Wall  $^ -o $(EXEC)
 
 clean: 
 	rm -rf *.o $(EXEC) 
-	#test structure
+
+#test structure
 
 #Homemade Tests
 run:

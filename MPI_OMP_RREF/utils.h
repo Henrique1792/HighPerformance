@@ -7,9 +7,8 @@
 
 float *readVector(FILE *src, int *vectorSize);
 void printVector(float *tgt,int size);
-float **readMatrix();
+void readMatrix(float ***tgt, int size);
 float *readVector(FILE *src, int *vectorSize);
-void adjustMatrix(float **tgt, int size);
 float *readSolution();
 void writeSolution(float *solution, int size);
 #endif
