@@ -1,6 +1,6 @@
 DEPS = utils.c matrix.c main.c
 OBJS = utils.o matrix.o main.o
-EXEC = $(EXEC)
+EXEC = rref
 %.o: %.c $(DEPS)
 	mpicc -c $^
 	all: $(OBJS)
