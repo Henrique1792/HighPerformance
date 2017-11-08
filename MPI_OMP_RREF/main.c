@@ -20,9 +20,9 @@ int main (int argc, char **argv) {
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    readMatrix(&matrix, matrix_size);
 
     if (is_root(world_rank)) {
+        readMatrix(&matrix, matrix_size);
         printf("\nORIGINAL MATRIX:\n");
         printMatrix(matrix, matrix_size);
     }

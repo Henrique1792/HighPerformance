@@ -35,7 +35,7 @@ float *readVector(FILE *src, int *vectorSize){
 void printVector(float *tgt,int size){
     int i;
     for(i=0;i<size;i++){
-        printf("%.2f",tgt[i]);
+        printf("%f",tgt[i]);
         printf("\n");
     }
 }

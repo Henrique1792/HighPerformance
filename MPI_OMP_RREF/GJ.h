@@ -4,10 +4,7 @@
 #ifndef GJ_H_
 #define GJ_H_
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <mpi.h>
-#include <omp.h>
+#include "utils.h"
 
 /*  ------------------------------------------------- DEFINES
  *  ------------------------------------------------------  */

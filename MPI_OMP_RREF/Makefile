@@ -1,6 +1,7 @@
 DEPS = utils.c matrix.c GJ.c main.c
 OBJS = utils.o matrix.o GJ.o main.o
 EXEC = rref
+
 %.o: %.c $(DEPS)
 	mpicc -c $^
 
@@ -15,7 +16,7 @@ clean:
 #Homemade Tests
 run:
 	export OMP_NUM_THREADS=1 ;\
-		mpirun -np 3 $(EXEC) 100
+		mpirun -np 3 $(EXEC) 5
 
 #2 cluster nodes
 2NodesSingle1:
