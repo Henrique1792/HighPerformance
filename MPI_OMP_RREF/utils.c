@@ -39,23 +39,6 @@ void printVector(float *tgt,int size){
         printf("\n");
     }
 }
-void readMatrix(float ***tgt,int size){
-    int i=0, j=0;
-    float tmp;
-    char chk;
-    FILE *src;
-    
-    if(tgt==NULL || size<=0) return;
-    src=fopen("matrix.txt","r");
-    for(i=0;i<size;i++){
-        for(j=0;j<size;j++){
-            readFloat(src,&tmp,&chk);
-            fread(&chk,sizeof(char),1,src);
-            *(tgt[i][j])=tmp;
-        }
-    }
-    fclose(src);
-}
 
 float *readSolution(){
     int size,i;
