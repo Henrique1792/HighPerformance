@@ -1,5 +1,5 @@
-DEPS = utils.c matrix.c main.c
-OBJS = utils.o matrix.o main.o
+DEPS = utils.c matrix.c GJ.c main.c
+OBJS = utils.o matrix.o GJ.o main.o
 EXEC = rref
 %.o: %.c $(DEPS)
 	mpicc -c $^

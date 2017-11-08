@@ -1,30 +1,47 @@
+/*
+ *     Cuidado ao verificar as questões de divisões por quando o pivot for igual a zero.
+ *     */
+#include "GJ.h"
 #include "utils.h"
 #include "matrix.h"
-#define Master(x) x==0 ? 1:0
 
-int main(int argc, char *argv[]){
-    FILE *src;
-    float **matrix;
-    int size;
-    //MPI VARIABLES
-    int rank, nprocs;
-    //MPI VARIABLES
-    //OMP VARIABLES
-    int tid, nthreads; 
-    //OMP VARIABLES
+/*  -------------------------------------------------- MAIN  --------------------------------------------------------  */
+
+int main (int argc, char **argv) {
+    /*  Variáveis do programa.  */
+    FILE *src = NULL;
+    size_t matrix_size = atoi(argv[1]);
+    float **matrix = createMatrix(matrix_size);
+    /*  Variáveis MPI.  */
+    int world_size = 0, world_rank = 0;
+
     MPI_Init(&argc, &argv);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
-    //every proccess in MPI will make this allocation
-    matrix=createMatrix(atoi(argv[1]));
-    if(Master(rank)){
-        readMatrix(&matrix,atoi(argv[1]));   
-        //MPI Bcast sending goes here!!!
-    }else{
-        //MPI Bcast receiving goes here!!  
+
+    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+
+    readMatrix(&matrix, matrix_size);
+
+    if (is_root(world_rank)) {
+        printf("\nORIGINAL MATRIX:\n");
+        printMatrix(matrix, matrix_size);
     }
+
+    // pivoting(world_rank, world_size, matrix, matrix_size);
+    //     // merge_matrix(world_rank, world_size, matrix, matrix_size);
      
-    freeMatrix(&matrix,atoi(argv[1]));
+    if (is_tail(world_rank, world_size)) {
+        printf("\nBEFORE CLEANING COLLUMNS:\n");
+        printMatrix(matrix, matrix_size);
+        
+        clear_columns(matrix, matrix_size);
+        printf("\nFINAL MATRIX:\n");
+        printMatrix(matrix, matrix_size);
+    }
+
     MPI_Finalize();
+
+    freeMatrix(&matrix, matrix_size);
+
     return 0;
 }
